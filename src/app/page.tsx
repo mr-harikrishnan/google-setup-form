@@ -100,18 +100,6 @@ export default function Home() {
       {adminToken && (
         <AdminDashboard authToken={adminToken} onClose={() => setAdminToken(null)} />
       )}
-
-      {/* Standard, user-friendly, footer */}
-      <footer className="w-full border-t border-border bg-white py-6 text-center text-xs text-gray">
-        <div className="max-w-4xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p>© {new Date().getFullYear()} Google Business Profile Setup Portal. All rights reserved.</p>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-primary transition-colors">Support Portal</a>
-            <a href="#" className="hover:text-primary transition-colors">Privacy Guidelines</a>
-            <a href="#" className="hover:text-primary transition-colors">Terms & Conditions</a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
