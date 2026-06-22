@@ -92,7 +92,7 @@ export default function Stepper({
 
   return (
     <div className="flex min-h-full flex-col items-center justify-center p-2 w-full" {...rest}>
-      <div className={`w-full rounded-2xl bg-slate-900 border border-slate-800 shadow-2xl overflow-hidden ${stepCircleContainerClassName}`}>
+      <div className={`w-full rounded-2xl bg-white border border-border shadow-md overflow-hidden ${stepCircleContainerClassName}`}>
         {/* Step Indicators Row */}
         <div className={`flex w-full items-center p-6 pb-2 ${stepContainerClassName}`}>
           {stepsArray.map((_, index) => {
@@ -144,7 +144,7 @@ export default function Stepper({
                 <button
                   type="button"
                   onClick={handleBack}
-                  className={`transition-all duration-200 rounded-xl px-6 py-3 bg-slate-950/60 border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-900 hover:border-slate-700 font-semibold text-sm cursor-pointer active:scale-[0.98] ${currentStep === 1 ? 'pointer-events-none opacity-30' : ''}`}
+                  className={`transition-all duration-200 rounded-xl px-6 py-3 bg-background border border-border text-gray hover:text-dark hover:bg-slate-100 hover:border-slate-400 font-semibold text-sm cursor-pointer active:scale-[0.98] ${currentStep === 1 ? 'pointer-events-none opacity-30' : ''}`}
                   {...backButtonProps}
                 >
                   {backButtonText}
@@ -153,7 +153,7 @@ export default function Stepper({
               <button
                 type="button"
                 onClick={isLastStep ? handleComplete : handleNext}
-                className="transition-all duration-200 flex items-center justify-center rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-bold text-sm px-8 py-3 cursor-pointer shadow-md shadow-indigo-650/10 hover:shadow-lg hover:shadow-indigo-600/20 active:scale-[0.98] border border-indigo-500/20"
+                className="transition-all duration-200 flex items-center justify-center rounded-xl bg-primary hover:bg-[#1a73e8] text-white font-bold text-sm px-8 py-3 cursor-pointer shadow-sm hover:shadow-md active:scale-[0.98] border border-primary/20"
                 {...nextButtonProps}
               >
                 {isLastStep ? 'Complete' : nextButtonText}
@@ -271,9 +271,9 @@ function StepIndicator({ step, currentStep, onClickStep, disableStepIndicators }
     >
       <motion.div
         variants={{
-          inactive: { scale: 1, backgroundColor: 'rgba(30, 41, 59, 0.8)', color: '#94a3b8', border: '1px solid rgba(255, 255, 255, 0.1)' },
-          active: { scale: 1, backgroundColor: '#4f46e5', color: '#ffffff', border: '1px solid #4f46e5' },
-          complete: { scale: 1, backgroundColor: '#10b981', color: '#ffffff', border: '1px solid #10b981' }
+          inactive: { scale: 1, backgroundColor: '#FFFFFF', color: '#64748B', border: '1px solid #CBD5E1' },
+          active: { scale: 1, backgroundColor: '#4285F4', color: '#ffffff', border: '1px solid #4285F4' },
+          complete: { scale: 1, backgroundColor: '#34A853', color: '#ffffff', border: '1px solid #34A853' }
         }}
         transition={{ duration: 0.3 }}
         className="flex h-9 w-9 items-center justify-center rounded-full font-bold text-sm transition-all duration-300"
@@ -293,11 +293,11 @@ function StepIndicator({ step, currentStep, onClickStep, disableStepIndicators }
 function StepConnector({ isComplete }: { isComplete: boolean }) {
   const lineVariants = {
     incomplete: { width: 0, backgroundColor: 'transparent' },
-    complete: { width: '100%', backgroundColor: '#10b981' }
+    complete: { width: '100%', backgroundColor: '#34A853' }
   };
 
   return (
-    <div className="relative -mx-1 h-[2px] flex-1 overflow-hidden bg-slate-800 rounded-full">
+    <div className="relative -mx-1 h-[2px] flex-1 overflow-hidden bg-border rounded-full">
       <motion.div
         className="absolute left-0 top-0 h-full"
         variants={lineVariants}

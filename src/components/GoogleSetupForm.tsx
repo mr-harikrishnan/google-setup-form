@@ -410,19 +410,20 @@ export default function GoogleSetupForm() {
     <div className="w-full max-w-4xl mx-auto my-4 px-2 md:px-0 relative">
       {/* Loading Overlay */}
       {isSubmittingToDb && (
-        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-slate-950/85 backdrop-blur-sm">
-          <Loader2 className="w-12 h-12 text-indigo-500 animate-spin mb-4" />
-          <h3 className="text-xl font-bold text-white tracking-wide">Recording Submission</h3>
-          <p className="text-sm text-slate-400 mt-1 max-w-xs text-center">Saving your business profile setup parameters to the database...</p>
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-dark/40 backdrop-blur-sm">
+          <Loader2 className="w-12 h-12 text-primary animate-spin mb-4" />
+          <h3 className="text-xl font-bold text-dark tracking-wide">Recording Submission</h3>
+          <p className="text-sm text-gray mt-1 max-w-xs text-center">Saving your business profile setup parameters to the database...</p>
         </div>
       )}
 
       {/* HEADER SECTION */}
-      <div className="text-center mb-8">
-        <h1 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight">
+      <div className="flex flex-col items-center text-center mb-8">
+        <img src="/Logo.png" alt="Google Setup Form Logo" className="h-16 md:h-20 w-auto object-contain mb-4 animate-fade-in mix-blend-multiply" />
+        <h1 className="text-2xl md:text-3xl font-extrabold text-dark tracking-tight">
           Google Business Profile Setup Form
         </h1>
-        <p className="text-slate-400 text-sm md:text-base mt-2 max-w-xl mx-auto">
+        <p className="text-gray text-xs md:text-sm mt-2 max-w-xl mx-auto">
           Provide your business details, coordinates, and images to create and optimize your Google search listing.
         </p>
       </div>
@@ -430,19 +431,19 @@ export default function GoogleSetupForm() {
       {!isSubmitSuccess ? (
         <div className="w-full">
           {/* Progress Indicator for Step count */}
-          <div className="flex justify-between items-center px-4 py-2 bg-slate-900 border border-slate-800 rounded-xl mb-4 max-w-[180px] mx-auto">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Progress</span>
-            <span className="text-xs font-extrabold text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded-md">Step {activeStep} of 6</span>
+          <div className="flex justify-between items-center px-4 py-2 bg-white border border-border rounded-xl mb-4 max-w-[180px] mx-auto">
+            <span className="text-[10px] font-bold text-gray uppercase tracking-widest">Progress</span>
+            <span className="text-xs font-extrabold text-primary bg-primary/10 px-2 py-0.5 rounded-md">Step {activeStep} of 6</span>
           </div>
 
           {/* Database Submit Error Warning */}
           {dbSubmitError && (
-            <div className="mb-6 p-4 rounded-xl border border-rose-500/20 bg-rose-500/10 text-rose-400 text-sm flex items-start gap-3 max-w-2xl mx-auto">
-              <AlertCircle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
+            <div className="mb-6 p-4 rounded-xl border border-danger/20 bg-danger/10 text-danger text-sm flex items-start gap-3 max-w-2xl mx-auto">
+              <AlertCircle className="w-5 h-5 text-danger shrink-0 mt-0.5" />
               <div>
-                <span className="font-bold text-rose-300">Database Storage Error: </span>
+                <span className="font-bold text-danger">Database Storage Error: </span>
                 {dbSubmitError}
-                <p className="text-xs text-rose-400/80 mt-1">Please fix connection credentials in your .env configuration or try again.</p>
+                <p className="text-xs text-danger/80 mt-1">Please fix connection credentials in your .env configuration or try again.</p>
               </div>
             </div>
           )}
@@ -461,25 +462,25 @@ export default function GoogleSetupForm() {
               backButtonText="Previous"
               nextButtonText="Continue"
               disableStepIndicators={false}
-              stepCircleContainerClassName="border border-slate-800 shadow-xl bg-slate-900/60 rounded-3xl"
+              stepCircleContainerClassName="border border-border shadow-xl bg-white/60 rounded-3xl"
             >
               {/* STEP 1: BUSINESS DETAILS */}
               <Step>
                 <div className="space-y-6">
-                  <div className="flex items-center gap-3 border-b border-slate-800 pb-4">
-                    <div className="p-2 bg-indigo-500/10 rounded-lg text-indigo-400">
+                  <div className="flex items-center gap-3 border-b border-border pb-4">
+                    <div className="p-2 bg-primary/10 rounded-lg text-primary">
                       <Building2 className="w-5 h-5" />
                     </div>
                     <div>
                       <h3 className="text-lg font-bold text-white">Business Details</h3>
-                      <p className="text-xs text-slate-400">Provide the fundamental identity details of your business.</p>
+                      <p className="text-xs text-gray">Provide the fundamental identity details of your business.</p>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Business Name */}
                     <div className="space-y-1.5" data-error={!!(formik.touched.businessName && formik.errors.businessName)}>
-                      <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">Business Name *</label>
+                      <label className="text-xs font-semibold text-dark uppercase tracking-wider block">Business Name *</label>
                       <input
                         name="businessName"
                         type="text"
@@ -487,7 +488,7 @@ export default function GoogleSetupForm() {
                         value={formik.values.businessName}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        className="bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all w-full"
+                        className="bg-white border border-border text-dark rounded-xl px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all w-full"
                       />
                       {formik.touched.businessName && formik.errors.businessName && (
                         <p className="text-xs text-rose-500 flex items-center gap-1 mt-1">
@@ -499,7 +500,7 @@ export default function GoogleSetupForm() {
 
                     {/* Business Category */}
                     <div className="space-y-1.5" data-error={!!(formik.touched.businessCategory && formik.errors.businessCategory)}>
-                      <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">Business Category *</label>
+                      <label className="text-xs font-semibold text-dark uppercase tracking-wider block">Business Category *</label>
                       <input
                         name="businessCategory"
                         type="text"
@@ -507,7 +508,7 @@ export default function GoogleSetupForm() {
                         value={formik.values.businessCategory}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        className="bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all w-full"
+                        className="bg-white border border-border text-dark rounded-xl px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all w-full"
                       />
                       {formik.touched.businessCategory && formik.errors.businessCategory && (
                         <p className="text-xs text-rose-500 flex items-center gap-1 mt-1">
@@ -519,7 +520,7 @@ export default function GoogleSetupForm() {
 
                     {/* Products / Services Offered */}
                     <div className="md:col-span-2 space-y-1.5" data-error={!!(formik.touched.productsServices && formik.errors.productsServices)}>
-                      <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">Products / Services Offered *</label>
+                      <label className="text-xs font-semibold text-dark uppercase tracking-wider block">Products / Services Offered *</label>
                       <textarea
                         name="productsServices"
                         rows={2}
@@ -527,7 +528,7 @@ export default function GoogleSetupForm() {
                         value={formik.values.productsServices}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        className="bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all w-full resize-none"
+                        className="bg-white border border-border text-dark rounded-xl px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all w-full resize-none"
                       />
                       {formik.touched.productsServices && formik.errors.productsServices && (
                         <p className="text-xs text-rose-500 flex items-center gap-1 mt-1">
@@ -539,7 +540,7 @@ export default function GoogleSetupForm() {
 
                     {/* Business Description */}
                     <div className="md:col-span-2 space-y-1.5" data-error={!!(formik.touched.businessDescription && formik.errors.businessDescription)}>
-                      <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">Business Description *</label>
+                      <label className="text-xs font-semibold text-dark uppercase tracking-wider block">Business Description *</label>
                       <textarea
                         name="businessDescription"
                         rows={3}
@@ -547,7 +548,7 @@ export default function GoogleSetupForm() {
                         value={formik.values.businessDescription}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        className="bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all w-full"
+                        className="bg-white border border-border text-dark rounded-xl px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all w-full"
                       />
                       {formik.touched.businessDescription && formik.errors.businessDescription && (
                         <p className="text-xs text-rose-500 flex items-center gap-1 mt-1">
@@ -559,8 +560,8 @@ export default function GoogleSetupForm() {
 
                     {/* Business Start Year */}
                     <div className="space-y-1.5" data-error={!!(formik.touched.businessStartYear && formik.errors.businessStartYear)}>
-                      <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block flex items-center gap-1">
-                        <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                      <label className="text-xs font-semibold text-dark uppercase tracking-wider block flex items-center gap-1">
+                        <Calendar className="w-3.5 h-3.5 text-gray" />
                         <span>Start Year *</span>
                       </label>
                       <input
@@ -571,7 +572,7 @@ export default function GoogleSetupForm() {
                         value={formik.values.businessStartYear}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        className="bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all w-full"
+                        className="bg-white border border-border text-dark rounded-xl px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all w-full"
                       />
                       {formik.touched.businessStartYear && formik.errors.businessStartYear && (
                         <p className="text-xs text-rose-500 flex items-center gap-1 mt-1">
@@ -583,8 +584,8 @@ export default function GoogleSetupForm() {
 
                     {/* Working Hours */}
                     <div className="space-y-1.5" data-error={!!(formik.touched.businessWorkingHours && formik.errors.businessWorkingHours)}>
-                      <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block flex items-center gap-1">
-                        <Clock className="w-3.5 h-3.5 text-slate-400" />
+                      <label className="text-xs font-semibold text-dark uppercase tracking-wider block flex items-center gap-1">
+                        <Clock className="w-3.5 h-3.5 text-gray" />
                         <span>Working Hours *</span>
                       </label>
                       <input
@@ -594,7 +595,7 @@ export default function GoogleSetupForm() {
                         value={formik.values.businessWorkingHours}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        className="bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all w-full"
+                        className="bg-white border border-border text-dark rounded-xl px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all w-full"
                       />
                       {formik.touched.businessWorkingHours && formik.errors.businessWorkingHours && (
                         <p className="text-xs text-rose-500 flex items-center gap-1 mt-1">
@@ -610,20 +611,20 @@ export default function GoogleSetupForm() {
               {/* STEP 2: LOCATION DETAILS */}
               <Step>
                 <div className="space-y-6">
-                  <div className="flex items-center gap-3 border-b border-slate-800 pb-4">
-                    <div className="p-2 bg-indigo-500/10 rounded-lg text-indigo-400">
+                  <div className="flex items-center gap-3 border-b border-border pb-4">
+                    <div className="p-2 bg-primary/10 rounded-lg text-primary">
                       <MapPin className="w-5 h-5" />
                     </div>
                     <div>
                       <h3 className="text-lg font-bold text-white">Location Details</h3>
-                      <p className="text-xs text-slate-400">Google requires precise mapping location configurations.</p>
+                      <p className="text-xs text-gray">Google requires precise mapping location configurations.</p>
                     </div>
                   </div>
 
                   <div className="space-y-6">
                     {/* Complete Address */}
                     <div className="space-y-1.5" data-error={!!(formik.touched.completeAddress && formik.errors.completeAddress)}>
-                      <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">Complete Business Address *</label>
+                      <label className="text-xs font-semibold text-dark uppercase tracking-wider block">Complete Business Address *</label>
                       <textarea
                         name="completeAddress"
                         rows={3}
@@ -631,7 +632,7 @@ export default function GoogleSetupForm() {
                         value={formik.values.completeAddress}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        className="bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all w-full"
+                        className="bg-white border border-border text-dark rounded-xl px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all w-full"
                       />
                       {formik.touched.completeAddress && formik.errors.completeAddress && (
                         <p className="text-xs text-rose-500 flex items-center gap-1 mt-1">
@@ -644,7 +645,7 @@ export default function GoogleSetupForm() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       {/* Pincode */}
                       <div className="space-y-1.5" data-error={!!(formik.touched.pincode && formik.errors.pincode)}>
-                        <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">Pincode *</label>
+                        <label className="text-xs font-semibold text-dark uppercase tracking-wider block">Pincode *</label>
                         <input
                           name="pincode"
                           type="text"
@@ -653,7 +654,7 @@ export default function GoogleSetupForm() {
                           value={formik.values.pincode}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          className="bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all w-full"
+                          className="bg-white border border-border text-dark rounded-xl px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all w-full"
                         />
                         {formik.touched.pincode && formik.errors.pincode && (
                           <p className="text-xs text-rose-500 flex items-center gap-1 mt-1">
@@ -665,7 +666,7 @@ export default function GoogleSetupForm() {
 
                       {/* Google Maps Location Link */}
                       <div className="md:col-span-2 space-y-1.5" data-error={!!(formik.touched.googleMapsLink && formik.errors.googleMapsLink)}>
-                        <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">Google Maps Link *</label>
+                        <label className="text-xs font-semibold text-dark uppercase tracking-wider block">Google Maps Link *</label>
                         <input
                           name="googleMapsLink"
                           type="text"
@@ -673,7 +674,7 @@ export default function GoogleSetupForm() {
                           value={formik.values.googleMapsLink}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          className="bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all w-full"
+                          className="bg-white border border-border text-dark rounded-xl px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all w-full"
                         />
                         {formik.touched.googleMapsLink && formik.errors.googleMapsLink && (
                           <p className="text-xs text-rose-500 flex items-center gap-1 mt-1">
@@ -690,20 +691,20 @@ export default function GoogleSetupForm() {
               {/* STEP 3: CONTACT DETAILS */}
               <Step>
                 <div className="space-y-6">
-                  <div className="flex items-center gap-3 border-b border-slate-800 pb-4">
-                    <div className="p-2 bg-indigo-500/10 rounded-lg text-indigo-400">
+                  <div className="flex items-center gap-3 border-b border-border pb-4">
+                    <div className="p-2 bg-primary/10 rounded-lg text-primary">
                       <Phone className="w-5 h-5" />
                     </div>
                     <div>
                       <h3 className="text-lg font-bold text-white">Contact Details</h3>
-                      <p className="text-xs text-slate-400">How clients and search engines reach your company.</p>
+                      <p className="text-xs text-gray">How clients and search engines reach your company.</p>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {/* Business Mobile Number */}
                     <div className="space-y-1.5" data-error={!!(formik.touched.businessMobile && formik.errors.businessMobile)}>
-                      <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">Business Mobile *</label>
+                      <label className="text-xs font-semibold text-dark uppercase tracking-wider block">Business Mobile *</label>
                       <input
                         name="businessMobile"
                         type="text"
@@ -718,7 +719,7 @@ export default function GoogleSetupForm() {
                           }
                         }}
                         onBlur={formik.handleBlur}
-                        className="bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all w-full"
+                        className="bg-white border border-border text-dark rounded-xl px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all w-full"
                       />
                       {formik.touched.businessMobile && formik.errors.businessMobile && (
                         <p className="text-xs text-rose-500 flex items-center gap-1 mt-1">
@@ -731,7 +732,7 @@ export default function GoogleSetupForm() {
                     {/* WhatsApp Number */}
                     <div className="space-y-1.5" data-error={!!(formik.touched.whatsappNumber && formik.errors.whatsappNumber)}>
                       <div className="flex flex-col gap-1.5 md:flex-row md:items-center md:justify-between">
-                        <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">WhatsApp Number *</label>
+                        <label className="text-xs font-semibold text-dark uppercase tracking-wider block">WhatsApp Number *</label>
                         
                         {/* Same as Mobile Checkbox */}
                         <div className="flex items-center gap-1.5">
@@ -747,9 +748,9 @@ export default function GoogleSetupForm() {
                                 formik.setFieldValue('whatsappNumber', formik.values.businessMobile);
                               }
                             }}
-                            className="w-3.5 h-3.5 rounded border-slate-850 bg-slate-950 text-indigo-650 focus:ring-indigo-500/20 cursor-pointer"
+                            className="w-3.5 h-3.5 rounded border-border bg-white text-blue-600 focus:ring-primary/20 cursor-pointer"
                           />
-                          <label htmlFor="whatsappSameAsMobile" className="text-[10px] text-slate-400 font-semibold cursor-pointer select-none">
+                          <label htmlFor="whatsappSameAsMobile" className="text-[10px] text-gray font-semibold cursor-pointer select-none">
                             Same as Mobile
                           </label>
                         </div>
@@ -764,8 +765,8 @@ export default function GoogleSetupForm() {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         disabled={formik.values.whatsappSameAsMobile}
-                        className={`bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all w-full ${
-                          formik.values.whatsappSameAsMobile ? 'opacity-50 cursor-not-allowed bg-slate-900' : ''
+                        className={`bg-white border border-border text-dark rounded-xl px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all w-full ${
+                          formik.values.whatsappSameAsMobile ? 'opacity-50 cursor-not-allowed bg-white' : ''
                         }`}
                       />
                       {formik.touched.whatsappNumber && formik.errors.whatsappNumber && (
@@ -778,7 +779,7 @@ export default function GoogleSetupForm() {
 
                     {/* Alternate Contact Number */}
                     <div className="space-y-1.5" data-error={!!(formik.touched.alternateContact && formik.errors.alternateContact)}>
-                      <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">Alternate Number (Optional)</label>
+                      <label className="text-xs font-semibold text-dark uppercase tracking-wider block">Alternate Number (Optional)</label>
                       <input
                         name="alternateContact"
                         type="text"
@@ -787,7 +788,7 @@ export default function GoogleSetupForm() {
                         value={formik.values.alternateContact}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        className="bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all w-full"
+                        className="bg-white border border-border text-dark rounded-xl px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all w-full"
                       />
                       {formik.touched.alternateContact && formik.errors.alternateContact && (
                         <p className="text-xs text-rose-500 flex items-center gap-1 mt-1">
@@ -803,13 +804,13 @@ export default function GoogleSetupForm() {
               {/* STEP 4: EMAIL & ACCOUNT DETAILS */}
               <Step>
                 <div className="space-y-6">
-                  <div className="flex items-center gap-3 border-b border-slate-800 pb-4">
-                    <div className="p-2 bg-indigo-500/10 rounded-lg text-indigo-400">
+                  <div className="flex items-center gap-3 border-b border-border pb-4">
+                    <div className="p-2 bg-primary/10 rounded-lg text-primary">
                       <Mail className="w-5 h-5" />
                     </div>
                     <div>
                       <h3 className="text-lg font-bold text-white">Email & Account Details</h3>
-                      <p className="text-xs text-slate-400">Required credentials to register and configure your Google Business Profile owner portal.</p>
+                      <p className="text-xs text-gray">Required credentials to register and configure your Google Business Profile owner portal.</p>
                     </div>
                   </div>
 
@@ -829,8 +830,8 @@ export default function GoogleSetupForm() {
                           }}
                           className={`py-3.5 px-4 rounded-xl border text-sm font-semibold transition-all flex items-center justify-center gap-2 cursor-pointer ${
                             formik.values.hasBusinessGmail 
-                              ? 'bg-indigo-500/10 border-indigo-500 text-indigo-400 shadow-md' 
-                              : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700'
+                              ? 'bg-primary/10 border-primary text-primary shadow-md' 
+                              : 'border-border bg-white text-gray hover:border-slate-700'
                           }`}
                         >
                           <Check className={`w-4 h-4 transition-all ${formik.values.hasBusinessGmail ? 'scale-105 opacity-100' : 'scale-0 opacity-0'}`} />
@@ -844,8 +845,8 @@ export default function GoogleSetupForm() {
                           }}
                           className={`py-3.5 px-4 rounded-xl border text-sm font-semibold transition-all flex items-center justify-center gap-2 cursor-pointer ${
                             !formik.values.hasBusinessGmail 
-                              ? 'bg-indigo-500/10 border-indigo-500 text-indigo-400 shadow-md' 
-                              : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700'
+                              ? 'bg-primary/10 border-primary text-primary shadow-md' 
+                              : 'border-border bg-white text-gray hover:border-slate-700'
                           }`}
                         >
                           <Check className={`w-4 h-4 transition-all ${!formik.values.hasBusinessGmail ? 'scale-105 opacity-100' : 'scale-0 opacity-0'}`} />
@@ -856,9 +857,9 @@ export default function GoogleSetupForm() {
 
                     {/* Conditional Rendering */}
                     {formik.values.hasBusinessGmail ? (
-                      <div className="space-y-2 p-5 rounded-2xl bg-indigo-500/5 border border-indigo-500/10 transition-all duration-300">
+                      <div className="space-y-2 p-5 rounded-2xl bg-primary/5 border border-primary/10 transition-all duration-300">
                         <div className="space-y-1.5" data-error={!!(formik.touched.businessGmail && formik.errors.businessGmail)}>
-                          <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">Business Gmail ID *</label>
+                          <label className="text-xs font-semibold text-dark uppercase tracking-wider block">Business Gmail ID *</label>
                           <input
                             name="businessGmail"
                             type="text"
@@ -866,7 +867,7 @@ export default function GoogleSetupForm() {
                             value={formik.values.businessGmail}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            className="bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all w-full"
+                            className="bg-white border border-border text-dark rounded-xl px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all w-full"
                           />
                           {formik.touched.businessGmail && formik.errors.businessGmail && (
                             <p className="text-xs text-rose-500 flex items-center gap-1 mt-1">
@@ -877,8 +878,8 @@ export default function GoogleSetupForm() {
                         </div>
                       </div>
                     ) : (
-                      <div className="space-y-6 p-5 rounded-2xl bg-indigo-500/5 border border-indigo-500/10 transition-all duration-300">
-                        <div className="flex items-center gap-2 text-indigo-400 text-xs font-semibold mb-2">
+                      <div className="space-y-6 p-5 rounded-2xl bg-primary/5 border border-primary/10 transition-all duration-300">
+                        <div className="flex items-center gap-2 text-primary text-xs font-semibold mb-2">
                           <Lock className="w-3.5 h-3.5" />
                           <span>We will register a new Gmail. Please fill registration details:</span>
                         </div>
@@ -886,7 +887,7 @@ export default function GoogleSetupForm() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           {/* Owner Name */}
                           <div className="space-y-1.5" data-error={!!(formik.touched.ownerName && formik.errors.ownerName)}>
-                            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">Owner Name *</label>
+                            <label className="text-xs font-semibold text-dark uppercase tracking-wider block">Owner Name *</label>
                             <input
                               name="ownerName"
                               type="text"
@@ -894,7 +895,7 @@ export default function GoogleSetupForm() {
                               value={formik.values.ownerName}
                               onChange={formik.handleChange}
                               onBlur={formik.handleBlur}
-                              className="bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all w-full"
+                              className="bg-white border border-border text-dark rounded-xl px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all w-full"
                             />
                             {formik.touched.ownerName && formik.errors.ownerName && (
                               <p className="text-xs text-rose-500 flex items-center gap-1 mt-1">
@@ -906,7 +907,7 @@ export default function GoogleSetupForm() {
 
                           {/* Owner Mobile Number */}
                           <div className="space-y-1.5" data-error={!!(formik.touched.ownerMobile && formik.errors.ownerMobile)}>
-                            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">Mobile Number *</label>
+                            <label className="text-xs font-semibold text-dark uppercase tracking-wider block">Mobile Number *</label>
                             <input
                               name="ownerMobile"
                               type="text"
@@ -915,7 +916,7 @@ export default function GoogleSetupForm() {
                               value={formik.values.ownerMobile}
                               onChange={formik.handleChange}
                               onBlur={formik.handleBlur}
-                              className="bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all w-full"
+                              className="bg-white border border-border text-dark rounded-xl px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all w-full"
                             />
                             {formik.touched.ownerMobile && formik.errors.ownerMobile && (
                               <p className="text-xs text-rose-500 flex items-center gap-1 mt-1">
@@ -927,14 +928,14 @@ export default function GoogleSetupForm() {
 
                           {/* Date of Birth */}
                           <div className="space-y-1.5" data-error={!!(formik.touched.ownerDOB && formik.errors.ownerDOB)}>
-                            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">Date of Birth *</label>
+                            <label className="text-xs font-semibold text-dark uppercase tracking-wider block">Date of Birth *</label>
                             <input
                               name="ownerDOB"
                               type="date"
                               value={formik.values.ownerDOB}
                               onChange={formik.handleChange}
                               onBlur={formik.handleBlur}
-                              className="bg-slate-950 border border-slate-800 text-slate-100 text-slate-400 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all w-full"
+                              className="bg-white border border-border text-dark text-gray rounded-xl px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all w-full"
                             />
                             {formik.touched.ownerDOB && formik.errors.ownerDOB && (
                               <p className="text-xs text-rose-500 flex items-center gap-1 mt-1">
@@ -946,7 +947,7 @@ export default function GoogleSetupForm() {
 
                           {/* Recovery Mobile Number */}
                           <div className="space-y-1.5" data-error={!!(formik.touched.recoveryMobile && formik.errors.recoveryMobile)}>
-                            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">Recovery Mobile Number *</label>
+                            <label className="text-xs font-semibold text-dark uppercase tracking-wider block">Recovery Mobile Number *</label>
                             <input
                               name="recoveryMobile"
                               type="text"
@@ -955,7 +956,7 @@ export default function GoogleSetupForm() {
                               value={formik.values.recoveryMobile}
                               onChange={formik.handleChange}
                               onBlur={formik.handleBlur}
-                              className="bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all w-full"
+                              className="bg-white border border-border text-dark rounded-xl px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all w-full"
                             />
                             {formik.touched.recoveryMobile && formik.errors.recoveryMobile && (
                               <p className="text-xs text-rose-500 flex items-center gap-1 mt-1">
@@ -974,13 +975,13 @@ export default function GoogleSetupForm() {
               {/* STEP 5: BUSINESS PHOTOS UPLOAD */}
               <Step>
                 <div className="space-y-6">
-                  <div className="flex items-center gap-3 border-b border-slate-800 pb-4">
-                    <div className="p-2 bg-indigo-500/10 rounded-lg text-indigo-400">
+                  <div className="flex items-center gap-3 border-b border-border pb-4">
+                    <div className="p-2 bg-primary/10 rounded-lg text-primary">
                       <Camera className="w-5 h-5" />
                     </div>
                     <div>
                       <h3 className="text-lg font-bold text-white">Business Photos</h3>
-                      <p className="text-xs text-slate-400">Upload business operational photos. Files will upload to Cloudinary if keys are set in your env config.</p>
+                      <p className="text-xs text-gray">Upload business operational photos. Files will upload to Cloudinary if keys are set in your env config.</p>
                     </div>
                   </div>
 
@@ -993,8 +994,8 @@ export default function GoogleSetupForm() {
                         onClick={() => setBusinessType('physical')}
                         className={`py-3 px-4 rounded-xl border text-sm font-semibold transition-all flex items-center justify-center gap-2 cursor-pointer ${
                           businessType === 'physical'
-                            ? 'bg-indigo-500/10 border-indigo-500 text-indigo-400'
-                            : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700'
+                            ? 'bg-primary/10 border-primary text-primary'
+                            : 'border-border bg-white text-gray hover:border-slate-700'
                         }`}
                       >
                         <Building2 className="w-4 h-4" />
@@ -1005,8 +1006,8 @@ export default function GoogleSetupForm() {
                         onClick={() => setBusinessType('service')}
                         className={`py-3 px-4 rounded-xl border text-sm font-semibold transition-all flex items-center justify-center gap-2 cursor-pointer ${
                           businessType === 'service'
-                            ? 'bg-indigo-500/10 border-indigo-500 text-indigo-400'
-                            : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700'
+                            ? 'bg-primary/10 border-primary text-primary'
+                            : 'border-border bg-white text-gray hover:border-slate-700'
                         }`}
                       >
                         <Layers className="w-4 h-4" />
@@ -1017,11 +1018,11 @@ export default function GoogleSetupForm() {
 
                   {/* PHOTO UPLOAD BOXES */}
                   <div className="space-y-6 pt-2">
-                    <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4 md:p-6">
+                    <div className="bg-white border border-border rounded-2xl p-4 md:p-6">
                       {businessType === 'physical' ? (
                         /* PHYSICAL SHOP PHOTOS */
                         <div className="space-y-6">
-                          <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Shop & Physical Store Photos</div>
+                          <div className="text-xs font-bold text-gray uppercase tracking-widest mb-2">Shop & Physical Store Photos</div>
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {/* Shop Front Photo */}
                             {renderMultipleUploadWidget('shopFront', 'Shop Front Photos', 'Front facade showing entry')}
@@ -1033,7 +1034,7 @@ export default function GoogleSetupForm() {
                             {renderMultipleUploadWidget('billingCounter', 'Billing Counter Photos', 'Reception or point of sale counter')}
                           </div>
 
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-800/60">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-border/60">
                             {/* Interior Photos (Multiple) */}
                             {renderMultipleUploadWidget('interior', 'Interior Photos', 'General shop interior layout')}
                             
@@ -1044,17 +1045,17 @@ export default function GoogleSetupForm() {
                       ) : (
                         /* SERVICE-BASED PHOTOS */
                         <div className="space-y-6">
-                          <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Service-based / Office Photos</div>
+                          <div className="text-xs font-bold text-gray uppercase tracking-widest mb-2">Service-based / Office Photos</div>
                           
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {renderMultipleUploadWidget('serviceWork', 'Service / Work Photos', 'Photos of your team working at locations')}
                             {renderMultipleUploadWidget('teamWorking', 'Team Working Photos', 'Action shots of office operations')}
                           </div>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-800/60">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-border/60">
                             {renderMultipleUploadWidget('beforeAfter', 'Before & After Photos', 'Project transformations side-by-side')}
                             {renderMultipleUploadWidget('equipmentTools', 'Equipment & Tools Photos', 'Kits, tools, mechanical systems used')}
                           </div>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-800/60">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-border/60">
                             {renderMultipleUploadWidget('workspace', 'Office / Workspace Photos', 'Desk spaces, offices, meeting areas')}
                             {renderMultipleUploadWidget('customerService', 'Customer Service Photos', 'Consultation rooms or lobby spaces')}
                           </div>
@@ -1068,13 +1069,13 @@ export default function GoogleSetupForm() {
               {/* STEP 6: ADDITIONAL DETAILS */}
               <Step>
                 <div className="space-y-6">
-                  <div className="flex items-center gap-3 border-b border-slate-800 pb-4">
-                    <div className="p-2 bg-indigo-500/10 rounded-lg text-indigo-400">
+                  <div className="flex items-center gap-3 border-b border-border pb-4">
+                    <div className="p-2 bg-primary/10 rounded-lg text-primary">
                       <FileText className="w-5 h-5" />
                     </div>
                     <div>
                       <h3 className="text-lg font-bold text-white">Additional Details</h3>
-                      <p className="text-xs text-slate-400">Add logos, social links, and transactional indicators (Optional).</p>
+                      <p className="text-xs text-gray">Add logos, social links, and transactional indicators (Optional).</p>
                     </div>
                   </div>
 
@@ -1091,7 +1092,7 @@ export default function GoogleSetupForm() {
 
                     {/* GST Number */}
                     <div className="space-y-1.5" data-error={!!(formik.touched.gstNumber && formik.errors.gstNumber)}>
-                      <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">GST Number (Optional)</label>
+                      <label className="text-xs font-semibold text-dark uppercase tracking-wider block">GST Number (Optional)</label>
                       <input
                         name="gstNumber"
                         type="text"
@@ -1099,7 +1100,7 @@ export default function GoogleSetupForm() {
                         value={formik.values.gstNumber}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        className="bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all w-full"
+                        className="bg-white border border-border text-dark rounded-xl px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all w-full"
                       />
                       {formik.touched.gstNumber && formik.errors.gstNumber && (
                         <p className="text-xs text-rose-500 flex items-center gap-1 mt-1">
@@ -1110,11 +1111,11 @@ export default function GoogleSetupForm() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-slate-800">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-border">
                     {/* Website URL */}
                     <div className="space-y-1.5" data-error={!!(formik.touched.websiteUrl && formik.errors.websiteUrl)}>
-                      <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block flex items-center gap-1">
-                        <Globe className="w-3.5 h-3.5 text-slate-400" />
+                      <label className="text-xs font-semibold text-dark uppercase tracking-wider block flex items-center gap-1">
+                        <Globe className="w-3.5 h-3.5 text-gray" />
                         <span>Website URL</span>
                       </label>
                       <input
@@ -1124,7 +1125,7 @@ export default function GoogleSetupForm() {
                         value={formik.values.websiteUrl}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        className="bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all w-full"
+                        className="bg-white border border-border text-dark rounded-xl px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all w-full"
                       />
                       {formik.touched.websiteUrl && formik.errors.websiteUrl && (
                         <p className="text-xs text-rose-500 flex items-center gap-1 mt-1">
@@ -1136,7 +1137,7 @@ export default function GoogleSetupForm() {
 
                     {/* Facebook Link */}
                     <div className="space-y-1.5" data-error={!!(formik.touched.facebookLink && formik.errors.facebookLink)}>
-                      <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">Facebook Link</label>
+                      <label className="text-xs font-semibold text-dark uppercase tracking-wider block">Facebook Link</label>
                       <input
                         name="facebookLink"
                         type="text"
@@ -1144,7 +1145,7 @@ export default function GoogleSetupForm() {
                         value={formik.values.facebookLink}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        className="bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all w-full"
+                        className="bg-white border border-border text-dark rounded-xl px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all w-full"
                       />
                       {formik.touched.facebookLink && formik.errors.facebookLink && (
                         <p className="text-xs text-rose-500 flex items-center gap-1 mt-1">
@@ -1156,7 +1157,7 @@ export default function GoogleSetupForm() {
 
                     {/* Instagram Link */}
                     <div className="space-y-1.5" data-error={!!(formik.touched.instagramLink && formik.errors.instagramLink)}>
-                      <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">Instagram Link</label>
+                      <label className="text-xs font-semibold text-dark uppercase tracking-wider block">Instagram Link</label>
                       <input
                         name="instagramLink"
                         type="text"
@@ -1164,7 +1165,7 @@ export default function GoogleSetupForm() {
                         value={formik.values.instagramLink}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        className="bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all w-full"
+                        className="bg-white border border-border text-dark rounded-xl px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all w-full"
                       />
                       {formik.touched.instagramLink && formik.errors.instagramLink && (
                         <p className="text-xs text-rose-500 flex items-center gap-1 mt-1">
@@ -1183,19 +1184,19 @@ export default function GoogleSetupForm() {
                       onClick={() => formik.setFieldValue('upiAvailable', !formik.values.upiAvailable)}
                       className={`p-4 rounded-xl border text-left transition-all flex items-start gap-3 cursor-pointer ${
                         formik.values.upiAvailable 
-                          ? 'bg-indigo-500/10 border-indigo-500 text-indigo-300' 
-                          : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700'
+                          ? 'bg-primary/10 border-primary text-primary' 
+                          : 'border-border bg-white text-gray hover:border-slate-700'
                       }`}
                     >
-                      <div className={`mt-0.5 p-1 rounded border transition-colors ${formik.values.upiAvailable ? 'bg-indigo-500 border-indigo-500 text-white' : 'border-slate-700'}`}>
+                      <div className={`mt-0.5 p-1 rounded border transition-colors ${formik.values.upiAvailable ? 'bg-primary border-primary text-white' : 'border-slate-700'}`}>
                         {formik.values.upiAvailable && <Check className="w-3 h-3" />}
                       </div>
                       <div>
                         <div className="text-sm font-semibold flex items-center gap-1.5 text-white">
-                          <DollarSign className="w-4 h-4 text-indigo-400" />
+                          <DollarSign className="w-4 h-4 text-primary" />
                           <span>UPI Payment Available</span>
                         </div>
-                        <p className="text-xs text-slate-400 mt-0.5">Check if you accept UPI, GPay, PhonePe, or store QR codes.</p>
+                        <p className="text-xs text-gray mt-0.5">Check if you accept UPI, GPay, PhonePe, or store QR codes.</p>
                       </div>
                     </button>
 
@@ -1205,19 +1206,19 @@ export default function GoogleSetupForm() {
                       onClick={() => formik.setFieldValue('homeDelivery', !formik.values.homeDelivery)}
                       className={`p-4 rounded-xl border text-left transition-all flex items-start gap-3 cursor-pointer ${
                         formik.values.homeDelivery 
-                          ? 'bg-indigo-500/10 border-indigo-500 text-indigo-300' 
-                          : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700'
+                          ? 'bg-primary/10 border-primary text-primary' 
+                          : 'border-border bg-white text-gray hover:border-slate-700'
                       }`}
                     >
-                      <div className={`mt-0.5 p-1 rounded border transition-colors ${formik.values.homeDelivery ? 'bg-indigo-500 border-indigo-500 text-white' : 'border-slate-700'}`}>
+                      <div className={`mt-0.5 p-1 rounded border transition-colors ${formik.values.homeDelivery ? 'bg-primary border-primary text-white' : 'border-slate-700'}`}>
                         {formik.values.homeDelivery && <Check className="w-3 h-3" />}
                       </div>
                       <div>
                         <div className="text-sm font-semibold flex items-center gap-1.5 text-white">
-                          <Truck className="w-4 h-4 text-indigo-400" />
+                          <Truck className="w-4 h-4 text-primary" />
                           <span>Home Delivery Available</span>
                         </div>
-                        <p className="text-xs text-slate-400 mt-0.5">Check if you offer delivery services to clients.</p>
+                        <p className="text-xs text-gray mt-0.5">Check if you offer delivery services to clients.</p>
                       </div>
                     </button>
                   </div>
@@ -1228,17 +1229,17 @@ export default function GoogleSetupForm() {
         </div>
       ) : (
         /* SUCCESS SUBMISSION STATE SCREEN - USER FRIENDLY */
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 md:p-12 text-center max-w-2xl mx-auto shadow-2xl transition-all">
+        <div className="bg-white border border-border rounded-3xl p-8 md:p-12 text-center max-w-2xl mx-auto shadow-2xl transition-all">
           <div className="w-20 h-20 bg-emerald-500/10 border border-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-6 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.1)]">
             <CheckCircle2 className="w-12 h-12" />
           </div>
-          <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-dark tracking-tight">
             Submission Successful!
           </h2>
-          <p className="text-slate-300 mt-4 text-sm md:text-base leading-relaxed px-4">
+          <p className="text-dark mt-4 text-sm md:text-base leading-relaxed px-4">
             Thank you for providing your details. Our setup team has successfully received your Google Business Profile onboarding parameters and will begin configuring and optimizing your listing shortly. 
           </p>
-          <p className="text-slate-400 mt-2 text-xs leading-relaxed px-4">
+          <p className="text-gray mt-2 text-xs leading-relaxed px-4">
             We will contact you if we require any additional clarifications.
           </p>
 
@@ -1265,7 +1266,7 @@ export default function GoogleSetupForm() {
                 setActiveStep(1);
                 setIsSubmitSuccess(false);
               }}
-              className="px-8 py-3.5 bg-gradient-to-r from-indigo-650 to-indigo-750 hover:from-indigo-650 hover:to-indigo-700 text-white font-bold rounded-xl cursor-pointer transition-all active:scale-[0.98] shadow-md border border-indigo-500/20 text-sm"
+              className="px-8 py-3.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-600 hover:to-blue-700 text-white font-bold rounded-xl cursor-pointer transition-all active:scale-[0.98] shadow-md border border-primary/20 text-sm"
             >
               Submit Another Profile
             </button>
@@ -1281,19 +1282,19 @@ export default function GoogleSetupForm() {
 
     return (
       <div className="space-y-1.5 flex flex-col items-stretch">
-        <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">{label} (Multiple)</label>
+        <label className="text-xs font-semibold text-dark uppercase tracking-wider block">{label} (Multiple)</label>
         
         <div className="grid grid-cols-3 gap-2">
           {list.map((item, index) => (
-            <div key={index} className="relative group rounded-lg overflow-hidden border border-slate-850 bg-slate-950 aspect-square flex items-center justify-center">
+            <div key={index} className="relative group rounded-lg overflow-hidden border border-border bg-white aspect-square flex items-center justify-center">
               <img 
                 src={item.preview} 
                 alt={`${label} ${index + 1}`} 
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
               {item.isUploading ? (
-                <div className="absolute inset-0 bg-slate-950/80 flex items-center justify-center">
-                  <Loader2 className="w-4 h-4 text-indigo-500 animate-spin" />
+                <div className="absolute inset-0 bg-white/80 flex items-center justify-center">
+                  <Loader2 className="w-4 h-4 text-primary animate-spin" />
                 </div>
               ) : (
                 <>
@@ -1311,9 +1312,9 @@ export default function GoogleSetupForm() {
           ))}
 
           {/* Add square upload box */}
-          <label className="border-2 border-dashed border-slate-800 hover:border-indigo-500/50 bg-slate-950 hover:bg-indigo-500/2 rounded-lg flex flex-col items-center justify-center gap-1 cursor-pointer transition-all aspect-square">
-            <Plus className="w-5 h-5 text-slate-500" />
-            <span className="text-[9px] font-semibold text-slate-400">Add photos</span>
+          <label className="border-2 border-dashed border-border hover:border-primary/50 bg-white hover:bg-primary/5 rounded-lg flex flex-col items-center justify-center gap-1 cursor-pointer transition-all aspect-square">
+            <Plus className="w-5 h-5 text-gray" />
+            <span className="text-[9px] font-semibold text-gray">Add photos</span>
             <input
               type="file"
               accept="image/*"
@@ -1323,7 +1324,7 @@ export default function GoogleSetupForm() {
             />
           </label>
         </div>
-        <p className="text-[10px] text-slate-500">{helperText}</p>
+        <p className="text-[10px] text-gray">{helperText}</p>
       </div>
     );
   }
