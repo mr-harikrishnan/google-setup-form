@@ -56,6 +56,12 @@ export default function GoogleSetupForm() {
   const [submissionId, setSubmissionId] = useState<string>('');
   const [databaseType, setDatabaseType] = useState<string>('');
 
+  // Test mode state
+  const [testModeEnabled, setTestModeEnabled] = useState(false);
+  const [testPasswordInput, setTestPasswordInput] = useState('');
+  const [testPasswordError, setTestPasswordError] = useState(false);
+  const TEST_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_SECRET_KEY || 'Jothi@24680';
+
   // Local state for all images (multiple images support for all upload fields)
   const [multipleImages, setMultipleImages] = useState<Record<string, ImageData[]>>({
     logo: [],
@@ -147,10 +153,18 @@ export default function GoogleSetupForm() {
         isUploading: false
       }));
 
-      setMultipleImages(prev => ({
-        ...prev,
-        [key]: [...(prev[key] || []), ...newItems]
-      }));
+      setMultipleImages(prev => {
+        const updated = {
+          ...prev,
+          [key]: [...(prev[key] || []), ...newItems]
+        };
+        // Proactively clear step 5 images error if any image is now present
+        const hasAnyImage = Object.values(updated).some(list => list.length > 0);
+        if (hasAnyImage && (formik.errors as any).images) {
+          formik.setFieldError('images', undefined);
+        }
+        return updated;
+      });
     }
   };
 
@@ -167,7 +181,50 @@ export default function GoogleSetupForm() {
     }
   };
 
-  // Step check before stepping forward
+  // Prefill all form fields with sample test data
+  const prefillTestData = () => {
+    formik.setValues({
+      businessName: 'Line and Tone Interiors',
+      businessCategory: 'Interior Designer',
+      productsServices: 'Residential interiors, Commercial interiors, Modular kitchens, False ceiling, Flooring, Painting',
+      businessDescription: 'Line and Tone is a professional architecture, interior design, and construction company based in Chennai. We specialize in transforming spaces into beautiful, functional environments with a focus on quality and client satisfaction.',
+      businessStartYear: '2020',
+      businessWorkingHours: '9:30 AM – 6:30 PM, Monday to Saturday',
+      completeAddress: 'Halt Inn, No. 727, Madras Thiruvallur High Rd, Periyar Nagar, Mannurpet, Chennai, Tamil Nadu 600050',
+      pincode: '600050',
+      googleMapsLink: 'https://maps.google.com/?q=Line+and+Tone+Mannurpet+Chennai',
+      businessMobile: '9876543210',
+      whatsappNumber: '9876543210',
+      whatsappSameAsMobile: true,
+      alternateContact: '9876543211',
+      hasBusinessGmail: false,
+      businessGmail: '',
+      ownerName: 'Jothi',
+      ownerMobile: '9876543210',
+      ownerDOB: '1995-05-15',
+      recoveryMobile: '9876543211',
+      gstNumber: '33AABCT1234Z1Z5',
+      websiteUrl: 'https://lineandtone.in',
+      facebookLink: 'https://facebook.com/lineandtone',
+      instagramLink: 'https://instagram.com/lineandtone',
+      upiAvailable: true,
+      homeDelivery: false,
+    });
+  };
+
+  // Handle test mode password confirmation
+  const handleTestPasswordSubmit = () => {
+    if (testPasswordInput === TEST_PASSWORD) {
+      prefillTestData();
+      setTestModeEnabled(false);
+      setTestPasswordInput('');
+      setTestPasswordError(false);
+    } else {
+      setTestPasswordError(true);
+      setTimeout(() => setTestPasswordError(false), 2000);
+    }
+  };
+
   const beforeStepChange = (from: number, to: number, isDirectClick?: boolean): boolean => {
     // Helper to validate a specific step
     const validateSingleStep = (stepNumber: number) => {
@@ -175,6 +232,17 @@ export default function GoogleSetupForm() {
       if (stepNumber === 2) return step2Schema.safeParse(formik.values);
       if (stepNumber === 3) return step3Schema.safeParse(formik.values);
       if (stepNumber === 4) return step4Schema.safeParse(formik.values);
+      if (stepNumber === 5) {
+        // Step 5: At least one image must be uploaded in any category
+        const hasAnyImage = Object.values(multipleImages).some(list => list.length > 0);
+        if (!hasAnyImage) {
+          return {
+            success: false,
+            error: { issues: [{ path: ['images'], message: 'Please upload at least one image in any category before continuing.' }] }
+          } as any;
+        }
+        return { success: true, error: null };
+      }
       if (stepNumber === 6) return step6Schema.safeParse(formik.values);
       return { success: true, error: null };
     };
@@ -410,10 +478,11 @@ export default function GoogleSetupForm() {
     <div className="w-full max-w-4xl mx-auto my-4 px-2 md:px-0 relative">
       {/* Loading Overlay */}
       {isSubmittingToDb && (
-        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-dark/40 backdrop-blur-sm">
-          <Loader2 className="w-12 h-12 text-primary animate-spin mb-4" />
-          <h3 className="text-xl font-bold text-dark tracking-wide">Recording Submission</h3>
-          <p className="text-sm text-gray mt-1 max-w-xs text-center">Saving your business profile setup parameters to the database...</p>
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white/90 backdrop-blur-sm">
+          <img src="/Logo.png" alt="GBP Setup Form" className="h-16 w-auto object-contain mix-blend-multiply mb-6" />
+          <Loader2 className="w-10 h-10 text-primary animate-spin mb-4" />
+          <h3 className="text-lg font-bold text-dark">Please wait...</h3>
+          <p className="text-sm text-gray mt-1 max-w-xs text-center">We are submitting your details. This may take a few seconds.</p>
         </div>
       )}
 
@@ -472,7 +541,7 @@ export default function GoogleSetupForm() {
                       <Building2 className="w-5 h-5" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-white">Business Details</h3>
+                      <h3 className="text-lg font-bold text-dark">Business Details</h3>
                       <p className="text-xs text-gray">Provide the fundamental identity details of your business.</p>
                     </div>
                   </div>
@@ -616,7 +685,7 @@ export default function GoogleSetupForm() {
                       <MapPin className="w-5 h-5" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-white">Location Details</h3>
+                      <h3 className="text-lg font-bold text-dark">Location Details</h3>
                       <p className="text-xs text-gray">Google requires precise mapping location configurations.</p>
                     </div>
                   </div>
@@ -696,7 +765,7 @@ export default function GoogleSetupForm() {
                       <Phone className="w-5 h-5" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-white">Contact Details</h3>
+                      <h3 className="text-lg font-bold text-dark">Contact Details</h3>
                       <p className="text-xs text-gray">How clients and search engines reach your company.</p>
                     </div>
                   </div>
@@ -809,7 +878,7 @@ export default function GoogleSetupForm() {
                       <Mail className="w-5 h-5" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-white">Email & Account Details</h3>
+                      <h3 className="text-lg font-bold text-dark">Email & Account Details</h3>
                       <p className="text-xs text-gray">Required credentials to register and configure your Google Business Profile owner portal.</p>
                     </div>
                   </div>
@@ -817,7 +886,7 @@ export default function GoogleSetupForm() {
                   <div className="space-y-6">
                     {/* Yes/No Question */}
                     <div className="space-y-3">
-                      <label className="text-sm font-medium text-slate-205 block">Do you already have a Business Gmail Account?</label>
+                      <label className="text-sm font-medium text-dark block">Do you already have a Business Gmail Account?</label>
                       <div className="grid grid-cols-2 gap-4">
                         <button
                           type="button"
@@ -865,7 +934,7 @@ export default function GoogleSetupForm() {
                             type="text"
                             placeholder="e.g. almasauto@gmail.com"
                             value={formik.values.businessGmail}
-                            onChange={formik.handleChange}
+                            onChange={(e) => formik.setFieldValue('businessGmail', e.target.value.toLowerCase())}
                             onBlur={formik.handleBlur}
                             className="bg-white border border-border text-dark rounded-xl px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all w-full"
                           />
@@ -975,19 +1044,26 @@ export default function GoogleSetupForm() {
               {/* STEP 5: BUSINESS PHOTOS UPLOAD */}
               <Step>
                 <div className="space-y-6">
-                  <div className="flex items-center gap-3 border-b border-border pb-4">
+                  <div className="flex items-center gap-3 border-b border-border pb-4" data-error={!!(formik.errors as any).images}>
                     <div className="p-2 bg-primary/10 rounded-lg text-primary">
                       <Camera className="w-5 h-5" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-white">Business Photos</h3>
+                      <h3 className="text-lg font-bold text-dark">Business Photos</h3>
                       <p className="text-xs text-gray">Upload business operational photos. Files will upload to Cloudinary if keys are set in your env config.</p>
                     </div>
                   </div>
 
+                  {(formik.errors as any).images && (
+                    <div className="p-3.5 rounded-xl border border-danger/20 bg-danger/10 text-danger text-sm flex items-center gap-2.5" data-error="true">
+                      <AlertCircle className="w-4 h-4 shrink-0 text-danger" />
+                      <span className="font-semibold">{(formik.errors as any).images as string}</span>
+                    </div>
+                  )}
+
                   {/* Switch between Shop vs Service */}
                   <div className="space-y-3">
-                    <label className="text-sm font-medium text-slate-205 block">Select your business type:</label>
+                    <label className="text-sm font-medium text-dark block">Select your business type:</label>
                     <div className="grid grid-cols-2 gap-4">
                       <button
                         type="button"
@@ -1074,7 +1150,7 @@ export default function GoogleSetupForm() {
                       <FileText className="w-5 h-5" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-white">Additional Details</h3>
+                      <h3 className="text-lg font-bold text-dark">Additional Details</h3>
                       <p className="text-xs text-gray">Add logos, social links, and transactional indicators (Optional).</p>
                     </div>
                   </div>
@@ -1192,7 +1268,7 @@ export default function GoogleSetupForm() {
                         {formik.values.upiAvailable && <Check className="w-3 h-3" />}
                       </div>
                       <div>
-                        <div className="text-sm font-semibold flex items-center gap-1.5 text-white">
+                        <div className="text-sm font-semibold flex items-center gap-1.5">
                           <DollarSign className="w-4 h-4 text-primary" />
                           <span>UPI Payment Available</span>
                         </div>
@@ -1214,7 +1290,7 @@ export default function GoogleSetupForm() {
                         {formik.values.homeDelivery && <Check className="w-3 h-3" />}
                       </div>
                       <div>
-                        <div className="text-sm font-semibold flex items-center gap-1.5 text-white">
+                        <div className="text-sm font-semibold flex items-center gap-1.5">
                           <Truck className="w-4 h-4 text-primary" />
                           <span>Home Delivery Available</span>
                         </div>
@@ -1226,6 +1302,52 @@ export default function GoogleSetupForm() {
               </Step>
             </Stepper>
           </form>
+
+          {/* Test Mode Panel */}
+          <div className="mt-4 max-w-4xl mx-auto px-2 md:px-0">
+            {!testModeEnabled ? (
+              <button
+                type="button"
+                onClick={() => setTestModeEnabled(true)}
+                className="flex items-center gap-2 text-[11px] text-gray hover:text-primary transition-colors group"
+              >
+                <div className="w-3.5 h-3.5 rounded border border-border group-hover:border-primary transition-colors flex items-center justify-center">
+                  <div className="w-1.5 h-1.5 rounded-sm bg-transparent group-hover:bg-primary/30 transition-colors" />
+                </div>
+                <span>Test Mode (Prefill sample data)</span>
+              </button>
+            ) : (
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-[11px] text-gray font-semibold">Enter password to prefill:</span>
+                <input
+                  type="password"
+                  autoFocus
+                  value={testPasswordInput}
+                  onChange={(e) => setTestPasswordInput(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleTestPasswordSubmit()}
+                  placeholder="*********"
+                  className={`text-xs rounded-lg border px-3 py-1.5 bg-white text-dark focus:outline-none focus:border-primary w-36 transition-all ${
+                    testPasswordError ? 'border-danger text-danger' : 'border-border'
+                  }`}
+                />
+                <button
+                  type="button"
+                  onClick={handleTestPasswordSubmit}
+                  className="px-3 py-1.5 text-xs font-bold bg-primary text-white rounded-lg hover:bg-[#1a73e8] cursor-pointer transition-all"
+                >
+                  Fill
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setTestModeEnabled(false); setTestPasswordInput(''); setTestPasswordError(false); }}
+                  className="text-[11px] text-gray hover:text-dark transition-colors"
+                >
+                  Cancel
+                </button>
+                {testPasswordError && <span className="text-[11px] text-danger">Wrong password</span>}
+              </div>
+            )}
+          </div>
         </div>
       ) : (
         /* SUCCESS SUBMISSION STATE SCREEN - USER FRIENDLY */
